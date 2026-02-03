@@ -1,4 +1,5 @@
 import json
+import string
 
 
 def search_cmd(query):
@@ -9,14 +10,26 @@ def search_cmd(query):
         movie_list = []
 
         query = query.lower()
+        query = remove_punctuation(query)
 
         for i in range(0, len(movies), 1):
-            if query in movies[i]['title'].lower():
+            title_mov = remove_punctuation(movies[i]['title'].lower())
+            if query in title_mov:
                 movie_list.append(movies[i])
 
         sorted_asc = sorted(movie_list, key=lambda x: x["id"])
 
-        for i in range(0, 5, 1):
-            print(f'{i+1}. {sorted_asc[i]["title"]}')
+        i = 1
+        for movie in sorted_asc:
+            if i > 5:
+                break
+            print(f'{i}. {movie["title"]}')
+            i += 1
 
     return
+
+
+def remove_punctuation(val):
+    table = str.maketrans("", "", string.punctuation)
+    res = val.translate(table)
+    return res
