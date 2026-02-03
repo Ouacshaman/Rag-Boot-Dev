@@ -8,8 +8,10 @@ def search_cmd(query):
 
         movie_list = []
 
+        query = query.lower()
+
         for i in range(0, len(movies), 1):
-            if query in movies[i]['title']:
+            if query in movies[i]['title'].lower():
                 movie_list.append(movies[i])
 
         sorted_asc = sorted(movie_list, key=lambda x: x["id"])
