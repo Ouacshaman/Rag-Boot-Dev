@@ -14,8 +14,11 @@ def search_cmd(query):
 
         for i in range(0, len(movies), 1):
             title_mov = remove_punctuation(movies[i]['title'].lower())
-            if query in title_mov:
-                movie_list.append(movies[i])
+            q_tok = tokenization(query)
+            for q in q_tok:
+                if q in title_mov:
+                    movie_list.append(movies[i])
+                    break
 
         sorted_asc = sorted(movie_list, key=lambda x: x["id"])
 
@@ -36,4 +39,5 @@ def remove_punctuation(val):
 
 
 def tokenization(val):
-    return
+    vals = val.split()
+    return vals
