@@ -11,9 +11,10 @@ def search_cmd(query):
 
         query = query.lower()
         query = remove_punctuation(query)
+        query = no_stop(query)
 
         for i in range(0, len(movies), 1):
-            title_mov = remove_punctuation(movies[i]['title'].lower())
+            title_mov = no_stop(remove_punctuation(movies[i]['title'].lower()))
             q_tok = tokenization(query)
             for q in q_tok:
                 if q in title_mov:
@@ -41,3 +42,21 @@ def remove_punctuation(val):
 def tokenization(val):
     vals = val.split()
     return vals
+
+
+def stop_words():
+    with open("./data/stopwords.txt") as f:
+        words = f.read()
+        words_list = words.splitlines()
+        return words_list
+
+
+def no_stop(val):
+    words = stop_words()
+    res = []
+    for word in tokenization(val):
+        if word in words:
+            continue
+        else:
+            res.append(word)
+    return " ".join(res)
