@@ -1,5 +1,6 @@
 import json
 import string
+from nltk.stem import PorterStemmer
 
 
 def search_cmd(query):
@@ -15,6 +16,8 @@ def search_cmd(query):
 
         for i in range(0, len(movies), 1):
             title_mov = no_stop(remove_punctuation(movies[i]['title'].lower()))
+            query = stemming(query)
+            title_mov = stemming(title_mov)
             q_tok = tokenization(query)
             for q in q_tok:
                 if q in title_mov:
@@ -60,3 +63,13 @@ def no_stop(val):
         else:
             res.append(word)
     return " ".join(res)
+
+
+def stemming(val):
+    stemmer = PorterStemmer()
+    tok = tokenization(val)
+    out = []
+    for v in tok:
+        v = stemmer.stem(v)
+        out.append(v)
+    return " ".join(out)
